@@ -14,63 +14,48 @@
   font-display: swap;
 }
 
-/* Colors are GitHub's Primer tokens. Dark by default, like the slides. */
+/* Colors are GitHub Primer tokens, as light-dark(light, dark). The page follows
+   the system theme; data-theme on <html> overrides it (see theme.ts). */
 :root {
-  color-scheme: dark;
-  --bg: #010409;
-  --surface: #0d1117;
-  --surface-muted: #151b23;
-  --border: #3d444d;
-  --border-muted: #262c36;
-  --text: #f0f6fc;
-  --muted: #9198a1;
-  --accent: #4493f8;
-  --success: #3fb950;
-  --attention: #d29922;
-  --danger: #f85149;
-  --lit: #e3b341;
-  --dim: #262c36;
-  --button-hover: #262c36;
-  --primary: #238636;
-  --primary-hover: #29903b;
-  --tooltip: #3d444d;
-  --code-bg: rgb(101 108 118 / 20%);
-  --attention-bg: rgb(187 128 9 / 15%);
-  --attention-border: rgb(187 128 9 / 40%);
-  --accent-bg: rgb(56 139 253 / 10%);
-  --accent-border: rgb(56 139 253 / 40%);
-  --backdrop: rgb(1 4 9 / 60%);
-  --shadow: 0 0 0 1px #3d444d, 0 24px 48px rgb(1 4 9 / 80%);
+  color-scheme: light dark;
+  --bg: light-dark(#f6f8fa, #010409);
+  --surface: light-dark(#ffffff, #0d1117);
+  --surface-muted: light-dark(#f6f8fa, #151b23);
+  --border: light-dark(#d1d9e0, #3d444d);
+  --border-muted: light-dark(#e5e9ed, #262c36);
+  --text: light-dark(#1f2328, #f0f6fc);
+  --muted: light-dark(#59636e, #9198a1);
+  --accent: light-dark(#0969da, #4493f8);
+  --success: light-dark(#1a7f37, #3fb950);
+  --attention: light-dark(#9a6700, #d29922);
+  --danger: light-dark(#d1242f, #f85149);
+  --lit: light-dark(#bf8700, #e3b341);
+  --dim: light-dark(#dfe3e8, #262c36);
+  --button-hover: light-dark(#eff2f5, #262c36);
+  --primary: light-dark(#1f883d, #238636);
+  --primary-hover: light-dark(#1c8139, #29903b);
+  --tooltip: light-dark(#25292e, #3d444d);
+  --code-bg: light-dark(rgb(129 139 152 / 12%), rgb(101 108 118 / 20%));
+  --attention-bg: light-dark(#fff8c5, rgb(187 128 9 / 15%));
+  --attention-border: light-dark(rgb(212 167 44 / 40%), rgb(187 128 9 / 40%));
+  --accent-bg: light-dark(#ddf4ff, rgb(56 139 253 / 10%));
+  --accent-border: light-dark(rgb(84 174 255 / 40%), rgb(56 139 253 / 40%));
+  --backdrop: light-dark(rgb(31 35 40 / 50%), rgb(1 4 9 / 60%));
+  --shadow-ring: light-dark(#d1d9e0, #3d444d);
+  --shadow-drop: light-dark(rgb(37 41 46 / 20%), rgb(1 4 9 / 80%));
+  /* Lit dots glow only on dark. */
+  --glow: light-dark(transparent, rgb(227 179 65 / 75%));
+  --glow-danger: light-dark(transparent, rgb(248 81 73 / 75%));
   --sans: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif;
   --mono: 'Mona Sans Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 }
 
 :root[data-theme='light'] {
   color-scheme: light;
-  --bg: #f6f8fa;
-  --surface: #ffffff;
-  --surface-muted: #f6f8fa;
-  --border: #d1d9e0;
-  --border-muted: #e5e9ed;
-  --text: #1f2328;
-  --muted: #59636e;
-  --accent: #0969da;
-  --success: #1a7f37;
-  --attention: #9a6700;
-  --danger: #d1242f;
-  --lit: #bf8700;
-  --dim: #dfe3e8;
-  --button-hover: #eff2f5;
-  --primary: #1f883d;
-  --primary-hover: #1c8139;
-  --tooltip: #25292e;
-  --code-bg: rgb(129 139 152 / 12%);
-  --attention-bg: #fff8c5;
-  --attention-border: rgb(212 167 44 / 40%);
-  --accent-bg: #ddf4ff;
-  --accent-border: rgb(84 174 255 / 40%);
-  --backdrop: rgb(31 35 40 / 50%);
-  --shadow: 0 0 0 1px #d1d9e0, 0 12px 28px rgb(37 41 46 / 20%);
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 * {
@@ -596,7 +581,7 @@ body.dragging::after {
 }
 
 .dots .fill {
-  filter: drop-shadow(0 0 1.5px color-mix(in srgb, var(--lit) 75%, transparent));
+  filter: drop-shadow(0 0 1.5px var(--glow));
 }
 
 .card-hero .dots .ring circle {
@@ -608,11 +593,7 @@ body.dragging::after {
 }
 
 .card-hero .dots .fill {
-  filter: drop-shadow(0 0 1.5px color-mix(in srgb, var(--danger) 75%, transparent));
-}
-
-:root[data-theme='light'] .dots .fill {
-  filter: none;
+  filter: drop-shadow(0 0 1.5px var(--glow-danger));
 }
 
 .dots .cursor {
@@ -754,7 +735,9 @@ body.dragging::after {
   background: var(--surface);
   border: 0;
   border-radius: 12px;
-  box-shadow: var(--shadow);
+  box-shadow:
+    0 0 0 1px var(--shadow-ring),
+    0 16px 40px var(--shadow-drop);
 }
 
 .details::backdrop {

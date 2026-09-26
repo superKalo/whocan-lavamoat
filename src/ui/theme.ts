@@ -1,36 +1,74 @@
-// Dark by default, like the slides. The choice is remembered per browser.
+// The page follows the system theme in CSS (light-dark() in styles.css), so
+// nothing flashes on load. The button overrides it until the system theme
+// changes; from then on the page follows the system again.
 import { icon } from './icons.ts'
 
 type Theme = 'dark' | 'light'
 
-const KEY = 'whocan-theme'
+/** A choice made with the button, and the system theme at that moment. */
+interface Override {
+  readonly theme: Theme
+  readonly system: Theme
+}
 
-const stored = (): Theme | undefined => {
+const KEY = 'whocan-theme'
+const darkQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+const systemTheme = (): Theme => (darkQuery.matches ? 'dark' : 'light')
+const isTheme = (value: unknown): value is Theme => value === 'dark' || value === 'light'
+
+const readOverride = (): Override | undefined => {
   try {
-    const value = localStorage.getItem(KEY)
-    return value === 'dark' || value === 'light' ? value : undefined
+    const value: unknown = JSON.parse(localStorage.getItem(KEY) ?? 'null')
+    if (typeof value === 'object' && value !== null && 'theme' in value && 'system' in value) {
+      const { theme, system } = value
+      if (isTheme(theme) && isTheme(system)) return { theme, system }
+    }
   } catch {
-    return undefined
+    // Blocked storage or an old value: follow the system.
+  }
+  return undefined
+}
+
+const writeOverride = (override: Override | undefined): void => {
+  try {
+    if (override) localStorage.setItem(KEY, JSON.stringify(override))
+    else localStorage.removeItem(KEY)
+  } catch {
+    // Blocked storage (private mode): the choice lasts for this page only.
   }
 }
 
 export const initTheme = (button: HTMLButtonElement | null): void => {
-  const apply = (theme: Theme): void => {
-    document.documentElement.dataset.theme = theme
+  let override = readOverride()
+  // The system theme changed while the page was closed.
+  if (override && override.system !== systemTheme()) {
+    override = undefined
+    writeOverride(undefined)
+  }
+
+  const render = (): void => {
+    const root = document.documentElement
+    if (override) root.dataset.theme = override.theme
+    else delete root.dataset.theme
     if (!button) return
-    const other = theme === 'dark' ? 'light' : 'dark'
+    const other: Theme = (override?.theme ?? systemTheme()) === 'dark' ? 'light' : 'dark'
     button.replaceChildren(icon(other === 'light' ? 'sun' : 'moon'))
     button.setAttribute('aria-label', `Switch to the ${other} theme`)
     button.title = `Switch to the ${other} theme`
   }
-  apply(stored() ?? 'dark')
+
   button?.addEventListener('click', () => {
-    const next: Theme = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light'
-    apply(next)
-    try {
-      localStorage.setItem(KEY, next)
-    } catch {
-      // Storage blocked (private mode): the theme still switches for this page.
-    }
+    const next: Theme = (override?.theme ?? systemTheme()) === 'dark' ? 'light' : 'dark'
+    // Choosing what the system already shows is the same as following it.
+    override = next === systemTheme() ? undefined : { theme: next, system: systemTheme() }
+    writeOverride(override)
+    render()
   })
+  darkQuery.addEventListener('change', () => {
+    override = undefined
+    writeOverride(undefined)
+    render()
+  })
+  render()
 }
