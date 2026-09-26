@@ -1,0 +1,8 @@
+node_modules/
+dist/
+coverage/
+test/fixtures/.cache/
+*.log
+.DS_Store
+
+PLAN.md

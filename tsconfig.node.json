@@ -1,0 +1,10 @@
+{
+  // Tests, scripts and Vite config run in Node. No DOM lib, so any src/core
+  // file the tests import is also checked to be DOM-free.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "types": ["node"]
+  },
+  "include": ["test", "scripts", "vite.config.ts"]
+}
