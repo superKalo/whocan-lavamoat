@@ -15,6 +15,7 @@ import {
 import type { PolicyFiles } from '../sources/source.ts'
 import { plural, renderReport } from './board.ts'
 import { h } from './dom.ts'
+import { icon } from './icons.ts'
 import { attachInteractions } from './interactions.ts'
 
 export interface Loader {
@@ -125,7 +126,8 @@ export const initLoading = (app: HTMLElement): Loader => {
         const policy = result?.status === 'fulfilled' ? result.value : undefined
         const button = h(
           'button',
-          { type: 'button', disabled: !policy },
+          { type: 'button', class: 'picker-row', disabled: !policy },
+          icon('file-directory'),
           h('code', {}, groupLabel(group.dirs)),
           h(
             'span',
@@ -139,10 +141,10 @@ export const initLoading = (app: HTMLElement): Loader => {
       app.replaceChildren(
         h(
           'section',
-          { class: 'picker' },
+          { class: 'box picker' },
           h(
             'h2',
-            { class: 'picker-title' },
+            { class: 'box-header' },
             `${plural(groups.length, 'policy', 'policies')} in ${repo.owner}/${repo.name} @ ${sha.slice(0, 7)}. Pick one:`,
           ),
           h('ul', {}, ...items),

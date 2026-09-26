@@ -1,6 +1,7 @@
 import type { Card, Report, Warning } from '../core/analyze.ts'
 import type { Row } from '../core/categories.ts'
 import { h, s } from './dom.ts'
+import { icon } from './icons.ts'
 
 /** One dot's cell, in viewBox units. */
 export const CELL = 10
@@ -32,7 +33,7 @@ export const drawDots = (card: Card, resources: readonly string[], grid: Grid): 
     const state = card.matches.get(id)?.state
     if (state === 'explicit') fill.append(s('circle', { cx: x, cy: y, r: 3.4 }))
     else if (state === 'inherited') ring.append(s('circle', { cx: x, cy: y, r: 2.8 }))
-    else dim.append(s('circle', { cx: x, cy: y, r: 1.5 }))
+    else dim.append(s('circle', { cx: x, cy: y, r: 2 }))
   })
   const svg = s('svg', { class: 'dots', viewBox: `0 0 ${grid.cols * CELL} ${grid.rows * CELL}` }, dim, ring, fill)
   // CSS caps the cell size with it, so a small policy does not get giant dots.
@@ -48,6 +49,7 @@ export const describeCounts = (card: Card): string =>
 
 const renderCard = (card: Card, resources: readonly string[], grid: Grid): HTMLElement => {
   const { category, explicit, inherited } = card
+  const total = resources.length
   return h(
     'article',
     { class: `card card-${category.row}`, 'data-card': category.id },
@@ -57,12 +59,17 @@ const renderCard = (card: Card, resources: readonly string[], grid: Grid): HTMLE
         type: 'button',
         class: 'card-head',
         'aria-haspopup': 'dialog',
-        'aria-label': `${category.title} ${describeCounts(card)}. Show the list.`,
+        'aria-label': `${category.title} ${describeCounts(card)}, out of ${total}. Show the list.`,
       },
       h('span', { class: 'card-title' }, category.title),
       h('span', { class: 'card-subtitle' }, category.subtitle),
-      h('span', { class: explicit + inherited === 0 ? 'card-count clear' : 'card-count' }, String(explicit)),
-      inherited > 0 ? h('span', { class: 'card-inherited' }, `+${inherited} via broad grants`) : null,
+      h(
+        'span',
+        { class: explicit + inherited === 0 ? 'card-score clear' : 'card-score' },
+        h('span', { class: 'card-count' }, String(explicit)),
+        h('span', { class: 'card-total' }, `/ ${total}`),
+      ),
+      inherited > 0 ? h('span', { class: 'label' }, `+${inherited} via broad grants`) : null,
     ),
     drawDots(card, resources, grid),
   )
@@ -74,6 +81,7 @@ const ROWS: readonly { readonly row: Row; readonly label?: string }[] = [
   { row: 'send', label: 'How it gets out' },
 ]
 
+/** A Primer flash, collapsed so the board stays on top. */
 const renderWarnings = (warnings: readonly Warning[]): HTMLElement | null => {
   if (warnings.length === 0) return null
   const serious = warnings.filter((w) => w.severity === 'warning').length
@@ -82,22 +90,24 @@ const renderWarnings = (warnings: readonly Warning[]): HTMLElement | null => {
     .filter(Boolean)
     .join(' and ')
   return h(
-    'section',
-    { class: 'warnings', 'aria-label': 'Warnings' },
+    'details',
+    { class: serious > 0 ? 'flash flash-attention' : 'flash flash-accent' },
+    h('summary', {}, icon(serious > 0 ? 'alert' : 'info'), `${summary} about this policy`),
     h(
-      'details',
-      { open: warnings.length <= 5 },
-      h('summary', {}, `${summary} about this policy`),
-      h(
-        'ul',
-        {},
-        ...warnings.map((w) =>
+      'ul',
+      {},
+      ...warnings.map((w) =>
+        h(
+          'li',
+          { class: `warning ${w.severity}` },
           h(
-            'li',
-            { class: `warning ${w.severity}` },
-            h('span', { class: 'where' }, h('code', {}, w.resource), ' ', h('code', {}, w.key)),
-            h('span', { class: 'message' }, w.message),
+            'span',
+            { class: 'where' },
+            icon(w.severity === 'info' ? 'info' : 'alert'),
+            h('code', {}, w.resource),
+            h('code', {}, w.key),
           ),
+          h('span', { class: 'message' }, w.message),
         ),
       ),
     ),
@@ -117,8 +127,8 @@ const NODE_NOTE = 'This policy also has Node-only fields (builtin, native), whic
 const renderNotes = (report: Report): HTMLElement =>
   h(
     'section',
-    { class: 'notes' },
-    h('h2', { class: 'row-label' }, 'What the numbers leave out'),
+    { class: 'box notes' },
+    h('h3', { class: 'box-header' }, 'What the numbers leave out'),
     h('ul', {}, ...(report.node ? [NODE_NOTE, ...NOTES] : NOTES).map((note) => h('li', {}, note))),
   )
 
@@ -129,7 +139,7 @@ export const renderReport = (report: Report, label: Node | string): HTMLElement 
     h(
       'section',
       { class: `row row-${row}` },
-      rowLabel ? h('h2', { class: 'row-label' }, rowLabel) : null,
+      rowLabel ? h('h3', { class: 'row-title' }, rowLabel) : null,
       h(
         'div',
         { class: 'cards' },
@@ -143,10 +153,11 @@ export const renderReport = (report: Report, label: Node | string): HTMLElement 
     'div',
     { class: 'report' },
     h(
-      'p',
-      { class: 'source' },
-      typeof label === 'string' ? h('code', {}, label) : label,
-      ` · ${plural(report.resources.length, 'package')}`,
+      'header',
+      { class: 'report-head' },
+      h('h2', { class: 'headline' }, plural(report.resources.length, 'package')),
+      h('p', { class: 'lede' }, 'What each one is allowed to touch, capability by capability.'),
+      h('p', { class: 'source' }, typeof label === 'string' ? h('code', {}, label) : label),
     ),
     renderWarnings(report.warnings),
     h('div', { class: 'board' }, ...rows),

@@ -1,4 +1,6 @@
 // Dark by default, like the slides. The choice is remembered per browser.
+import { icon } from './icons.ts'
+
 type Theme = 'dark' | 'light'
 
 const KEY = 'whocan-theme'
@@ -17,8 +19,9 @@ export const initTheme = (button: HTMLButtonElement | null): void => {
     document.documentElement.dataset.theme = theme
     if (!button) return
     const other = theme === 'dark' ? 'light' : 'dark'
-    button.textContent = other === 'light' ? 'Light' : 'Dark'
+    button.replaceChildren(icon(other === 'light' ? 'sun' : 'moon'))
     button.setAttribute('aria-label', `Switch to the ${other} theme`)
+    button.title = `Switch to the ${other} theme`
   }
   apply(stored() ?? 'dark')
   button?.addEventListener('click', () => {

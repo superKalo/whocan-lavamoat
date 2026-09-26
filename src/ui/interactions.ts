@@ -1,6 +1,7 @@
 import type { Card, CardMatch, Report } from '../core/analyze.ts'
 import { CELL, describeCounts, dotCenter, gridFor } from './board.ts'
 import { h, s } from './dom.ts'
+import { icon } from './icons.ts'
 
 let detach: AbortController | undefined
 
@@ -98,9 +99,9 @@ export const attachInteractions = (root: HTMLElement, report: Report): void => {
           'header',
           { class: 'details-head' },
           h('h2', { id: 'details-title' }, card.category.title),
-          h('button', { type: 'button', class: 'close', 'aria-label': 'Close' }, '×'),
+          h('button', { type: 'button', class: 'icon-button close', 'aria-label': 'Close' }, icon('x')),
         ),
-        h('p', { class: 'details-summary' }, `${describeCounts(card)}.`),
+        h('p', { class: 'details-summary' }, `${describeCounts(card)}, out of ${count}.`),
         items.length === 0
           ? h('p', { class: 'details-empty' }, 'No package gets this.')
           : h(
