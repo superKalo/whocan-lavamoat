@@ -1,6 +1,6 @@
 {
   "name": "whocan-lavamoat",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "private": true,
   "description": "Who can fetch? See what your LavaMoat policy lets each package do.",
   "license": "MIT",
