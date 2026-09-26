@@ -31,6 +31,7 @@
   --danger: light-dark(#d1242f, #f85149);
   --lit: light-dark(#c47a00, #f5ae3d);
   --dim: light-dark(#dfe3e8, #262c36);
+  --button: light-dark(#f6f8fa, #212830);
   --button-hover: light-dark(#eff2f5, #262c36);
   --primary: light-dark(#1f883d, #238636);
   --primary-hover: light-dark(#1c8139, #29903b);
@@ -410,7 +411,45 @@ body:has(.landing) .subline {
 /* Report heading */
 
 .report-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 24px;
+}
+
+.export {
+  display: flex;
+  gap: 8px;
+}
+
+/* A Primer button */
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 32px;
+  padding: 0 12px;
+  font-size: 14px;
+  font-weight: 500;
+  background: var(--button);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--button-hover);
+}
+
+.button:disabled {
+  cursor: progress;
+  opacity: 0.6;
+}
+
+.button .octicon {
+  color: var(--muted);
 }
 
 .headline {

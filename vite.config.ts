@@ -5,7 +5,7 @@ import { defineConfig, type Plugin } from 'vite'
 const csp = [
   "default-src 'self'",
   "img-src 'self' data: blob:",
-  'connect-src https://api.github.com https://raw.githubusercontent.com https://cdn.jsdelivr.net',
+  "connect-src 'self' https://api.github.com https://raw.githubusercontent.com https://cdn.jsdelivr.net",
   "object-src 'none'",
   "base-uri 'none'",
   "form-action 'none'",

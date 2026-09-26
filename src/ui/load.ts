@@ -15,6 +15,7 @@ import {
 import type { PolicyFiles } from '../sources/source.ts'
 import { plural, renderReport } from './board.ts'
 import { h } from './dom.ts'
+import { attachExport } from './export.ts'
 import { icon } from './icons.ts'
 import { attachInteractions } from './interactions.ts'
 
@@ -41,6 +42,14 @@ const groupLabel = (dirs: readonly string[]): string => {
   const [parent] = parents
   if (dirs.length === 1 || parents.size !== 1 || parent === undefined) return dirs.join(', ')
   return `${parent}/{${dirs.map((dir) => dir.split('/').at(-1)).join(', ')}}`
+}
+
+/** The source line as plain text for the export, without its buttons. */
+const labelText = (label: Node | string): string => {
+  if (typeof label === 'string') return label
+  const copy = label.cloneNode(true)
+  if (copy instanceof Element) for (const button of copy.querySelectorAll('button')) button.remove()
+  return (copy.textContent ?? '').replace(/\s+/g, ' ').replace(/\s*·\s*$/, '').trim()
 }
 
 const summarize = (group: PolicyGroup, policy: Policy): string =>
@@ -73,6 +82,7 @@ export const initLoading = (app: HTMLElement): Loader => {
     const view = renderReport(report, label)
     app.replaceChildren(view)
     attachInteractions(view, report)
+    attachExport(view, report, labelText(label), fail)
     setStatus('')
   }
   const fail = (error: unknown): void => setStatus(messageOf(error), 'error')

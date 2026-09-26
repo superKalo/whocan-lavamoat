@@ -155,9 +155,19 @@ export const renderReport = (report: Report, label: Node | string): HTMLElement 
     h(
       'header',
       { class: 'report-head' },
-      h('h2', { class: 'headline' }, plural(report.resources.length, 'package')),
-      h('p', { class: 'lede' }, 'What each one is allowed to touch, capability by capability.'),
-      h('p', { class: 'source' }, typeof label === 'string' ? h('code', {}, label) : label),
+      h(
+        'div',
+        {},
+        h('h2', { class: 'headline' }, plural(report.resources.length, 'package')),
+        h('p', { class: 'lede' }, 'What each one is allowed to touch, capability by capability.'),
+        h('p', { class: 'source' }, typeof label === 'string' ? h('code', {}, label) : label),
+      ),
+      h(
+        'div',
+        { class: 'export', role: 'group', 'aria-label': 'Download the board' },
+        h('button', { type: 'button', class: 'button', 'data-export': 'svg' }, icon('download'), 'SVG'),
+        h('button', { type: 'button', class: 'button', 'data-export': 'png' }, icon('download'), 'PNG'),
+      ),
     ),
     renderWarnings(report.warnings),
     h('div', { class: 'board' }, ...rows),
