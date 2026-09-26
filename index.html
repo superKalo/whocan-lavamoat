@@ -14,18 +14,20 @@
   <body>
     <header class="site">
       <h1 class="brand">
-        <svg class="brand-mark" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true">
-          <circle cx="4" cy="4" r="2.4" />
-          <circle cx="11" cy="4" r="2.4" />
-          <circle cx="18" cy="4" r="2.4" />
-          <circle cx="4" cy="11" r="2.4" />
-          <circle class="lit" cx="11" cy="11" r="2.4" />
-          <circle cx="18" cy="11" r="2.4" />
-          <circle cx="4" cy="18" r="2.4" />
-          <circle cx="11" cy="18" r="2.4" />
-          <circle cx="18" cy="18" r="2.4" />
-        </svg>
-        whocan
+        <a href="./">
+          <svg class="brand-mark" viewBox="0 0 22 22" width="22" height="22" aria-hidden="true">
+            <circle cx="4" cy="4" r="2.4" />
+            <circle cx="11" cy="4" r="2.4" />
+            <circle cx="18" cy="4" r="2.4" />
+            <circle cx="4" cy="11" r="2.4" />
+            <circle class="lit" cx="11" cy="11" r="2.4" />
+            <circle cx="18" cy="11" r="2.4" />
+            <circle cx="4" cy="18" r="2.4" />
+            <circle cx="11" cy="18" r="2.4" />
+            <circle cx="18" cy="18" r="2.4" />
+          </svg>
+          whocan
+        </a>
       </h1>
       <button type="button" id="theme" class="icon-button"></button>
     </header>
@@ -56,6 +58,11 @@
       <p id="status" class="status" role="status" aria-live="polite"></p>
     </section>
     <main id="app"></main>
+    <footer class="site-footer">
+      <a href="https://github.com/superKalo/whocan" target="_blank" rel="noopener noreferrer">whocan</a> is open source
+      under the MIT license. Made by
+      <a href="https://github.com/superKalo" target="_blank" rel="noopener noreferrer">Kaloyan Kosev</a>.
+    </footer>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
