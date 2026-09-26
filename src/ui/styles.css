@@ -320,7 +320,7 @@ a:hover,
   font-size: 15px;
 }
 
-/* The word in "Who can fetch?" that cycles through the questions. */
+/* The phrase and its question mark cycle together, so the mark never jumps. */
 .capability {
   display: inline-block;
   color: var(--lit);

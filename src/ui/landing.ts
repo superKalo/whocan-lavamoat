@@ -33,8 +33,10 @@ const PHRASES = (() => {
 })()
 
 /**
- * Cycles the word in "Who can fetch?" through the questions while the landing
- * is on screen. It stays on "fetch" for people who prefer reduced motion.
+ * Cycles the question in "Who can fetch?" while the landing is on screen.
+ * Keeping the question mark inside the animated span lets it fade and move with
+ * the phrase instead of visibly jumping when the phrase changes width. It stays
+ * on "fetch?" for people who prefer reduced motion.
  */
 export const rotateCapability = (word: HTMLElement): void => {
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
@@ -43,13 +45,13 @@ export const rotateCapability = (word: HTMLElement): void => {
     if (!document.querySelector('.landing')) {
       window.clearInterval(timer)
       word.classList.remove('out')
-      word.textContent = 'fetch'
+      word.textContent = 'fetch?'
       return
     }
     word.classList.add('out')
     window.setTimeout(() => {
       i = (i + 1) % PHRASES.length
-      word.textContent = PHRASES[i] ?? 'fetch'
+      word.textContent = `${PHRASES[i] ?? 'fetch'}?`
       word.classList.remove('out')
     }, 250)
   }, 2400)
