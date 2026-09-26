@@ -1,0 +1,8 @@
+{
+  "resources": {
+    "worklets": { "globals": { "console": "write", "setTimeout": "write" } },
+    "logger": { "globals": { "console.log": true } },
+    "lottie": { "globals": { "bodymovin": "write" } },
+    "nested": { "globals": { "process.exitCode": "write" } }
+  }
+}

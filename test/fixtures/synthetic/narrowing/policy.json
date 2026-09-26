@@ -1,0 +1,6 @@
+{
+  "resources": {
+    "wallet": { "globals": { "navigator.userAgent": true, "navigator.hid": true, "navigator.usb": true } },
+    "router": { "globals": { "location": true } }
+  }
+}

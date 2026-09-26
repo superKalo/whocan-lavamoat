@@ -1,0 +1,7 @@
+{
+  "resources": {
+    "a": { "globals": { "console": true } },
+    "b": { "globals": { "setTimeout": true } },
+    "d": { "globals": { "console.log": true } }
+  }
+}

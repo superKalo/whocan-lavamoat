@@ -1,0 +1,5 @@
+{
+  "resources": {
+    "ext": { "globals": { "chrome": true } }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "resources": {
+    "wallet": { "globals": { "navigator": false, "navigator.hid": true } },
+    "router": { "globals": { "location.href": false } }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "resources": {
+    "x": {
+      "globals": {
+        "eval": true,
+        "Function": true,
+        "Compartment": true,
+        "__proto__": true,
+        "__proto__.polluted": true,
+        "fetch": "read"
+      }
+    }
+  }
+}

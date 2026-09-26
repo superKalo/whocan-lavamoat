@@ -1,0 +1,8 @@
+{
+  "resources": {
+    "only-meta": { "meta": { "note": "Auto policy could not be generated for this module." } },
+    "only-packages": { "packages": { "a": true } },
+    "only-denials": { "globals": { "fetch": false } },
+    "only-globals": { "globals": { "localStorage": true } }
+  }
+}

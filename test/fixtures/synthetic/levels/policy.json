@@ -1,0 +1,9 @@
+{
+  "resources": {
+    "broad": { "globals": { "navigator": true } },
+    "hid": { "globals": { "navigator.hid": true } },
+    "ext": { "globals": { "chrome.runtime": true, "fetch": true } },
+    "mixed": { "globals": { "localStorage": true, "navigator": true } },
+    "quiet": { "packages": { "broad": true } }
+  }
+}

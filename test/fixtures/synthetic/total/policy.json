@@ -1,0 +1,6 @@
+{
+  "resources": {
+    "a": { "globals": { "fetch": true } },
+    "b": { "packages": { "a": true } }
+  }
+}

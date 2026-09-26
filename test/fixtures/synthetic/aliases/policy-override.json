@@ -1,0 +1,8 @@
+{
+  "resources": {
+    "a": { "globals": { "window": true } },
+    "b": { "globals": { "top": true } },
+    "c": { "globals": { "parent.fetch": true } },
+    "d": { "globals": { "window.fetch": true, "self.localStorage": true } }
+  }
+}

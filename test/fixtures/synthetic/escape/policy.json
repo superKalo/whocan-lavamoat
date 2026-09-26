@@ -1,0 +1,8 @@
+{
+  "resources": {
+    "dom": { "globals": { "document.createElement": true } },
+    "img": { "globals": { "Image": true } },
+    "worker": { "globals": { "Worker": true } },
+    "timer": { "globals": { "setTimeout": true } }
+  }
+}
