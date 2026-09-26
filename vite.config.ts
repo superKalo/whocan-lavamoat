@@ -24,7 +24,7 @@ const contentSecurityPolicy = (): Plugin => ({
 })
 
 export default defineConfig({
-  // GitHub Pages serves the project from /whocan/.
-  base: '/whocan/',
+  // GitHub Pages serves the project from /whocan-lavamoat/.
+  base: '/whocan-lavamoat/',
   plugins: [contentSecurityPolicy()],
 })

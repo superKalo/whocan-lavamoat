@@ -26,6 +26,35 @@ const miniBoard = (id: string): SVGSVGElement => {
   return s('svg', { class: 'mini-board', viewBox: '0 0 20 15', 'aria-hidden': 'true' }, ...dots)
 }
 
+// The questions of the cards, for "Who can …?", starting with fetch.
+const PHRASES = (() => {
+  const phrases = categories.map((category) => category.title.replace(/^who can /, '').replace(/\?$/, ''))
+  return ['fetch', ...phrases.filter((phrase) => phrase !== 'fetch')]
+})()
+
+/**
+ * Cycles the word in "Who can fetch?" through the questions while the landing
+ * is on screen. It stays on "fetch" for people who prefer reduced motion.
+ */
+export const rotateCapability = (word: HTMLElement): void => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  let i = 0
+  const timer = window.setInterval(() => {
+    if (!document.querySelector('.landing')) {
+      window.clearInterval(timer)
+      word.classList.remove('out')
+      word.textContent = 'fetch'
+      return
+    }
+    word.classList.add('out')
+    window.setTimeout(() => {
+      i = (i + 1) % PHRASES.length
+      word.textContent = PHRASES[i] ?? 'fetch'
+      word.classList.remove('out')
+    }, 250)
+  }, 2400)
+}
+
 const link = (href: string, text: string): HTMLAnchorElement =>
   h('a', { href, target: '_blank', rel: 'noopener noreferrer' }, text)
 
@@ -88,7 +117,7 @@ export const renderLanding = (): HTMLElement =>
           {},
           'It runs in your browser: policies are read locally and never uploaded, and nothing is tracked. whocan is open source under the MIT license.',
         ),
-        h('ul', { class: 'links' }, h('li', {}, link('https://github.com/superKalo/whocan', 'Source on GitHub'))),
+        h('ul', { class: 'links' }, h('li', {}, link('https://github.com/superKalo/whocan-lavamoat', 'Source on GitHub'))),
       ),
     ),
   )

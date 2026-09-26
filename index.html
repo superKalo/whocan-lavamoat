@@ -9,7 +9,7 @@
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 22 22'%3E%3Cg fill='%233d444d'%3E%3Ccircle cx='4' cy='4' r='2.6'/%3E%3Ccircle cx='11' cy='4' r='2.6'/%3E%3Ccircle cx='18' cy='4' r='2.6'/%3E%3Ccircle cx='4' cy='11' r='2.6'/%3E%3Ccircle cx='18' cy='11' r='2.6'/%3E%3Ccircle cx='4' cy='18' r='2.6'/%3E%3Ccircle cx='11' cy='18' r='2.6'/%3E%3Ccircle cx='18' cy='18' r='2.6'/%3E%3C/g%3E%3Ccircle cx='11' cy='11' r='2.6' fill='%23e3b341'/%3E%3C/svg%3E"
     />
-    <title>whocan</title>
+    <title>whocan for LavaMoat</title>
   </head>
   <body>
     <header class="site">
@@ -27,12 +27,14 @@
             <circle cx="18" cy="18" r="2.4" />
           </svg>
           whocan
+          <span class="brand-for">for LavaMoat</span>
         </a>
       </h1>
       <button type="button" id="theme" class="icon-button"></button>
     </header>
     <section class="load" aria-label="Load a policy">
-      <p class="tagline">Who can fetch? What your LavaMoat policy lets each package do.</p>
+      <h2 class="tagline" aria-label="Who can fetch?">Who can <span id="capability" class="capability">fetch</span>?</h2>
+      <p class="subline">What your LavaMoat policy lets each package do.</p>
       <form id="repo-form" class="repo-form">
         <label class="visually-hidden" for="repo">GitHub repository</label>
         <input
@@ -59,7 +61,7 @@
     </section>
     <main id="app"></main>
     <footer class="site-footer">
-      <a href="https://github.com/superKalo/whocan" target="_blank" rel="noopener noreferrer">whocan</a> is open source
+      <a href="https://github.com/superKalo/whocan-lavamoat" target="_blank" rel="noopener noreferrer">whocan</a> is open source
       under the MIT license. Made by
       <a href="https://github.com/superKalo" target="_blank" rel="noopener noreferrer">Kaloyan Kosev</a>.
     </footer>

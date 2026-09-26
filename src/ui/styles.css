@@ -177,6 +177,13 @@ a:hover,
   text-decoration: none;
 }
 
+.brand-for {
+  color: var(--muted);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
 .brand-mark circle {
   fill: var(--dim);
 }
@@ -194,11 +201,31 @@ a:hover,
 }
 
 .tagline {
-  margin: 0 0 6px;
+  margin: 0;
   font-size: 22px;
-  font-weight: 600;
+  font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.2;
+  line-height: 1.15;
+}
+
+.subline {
+  margin: 2px 0 8px;
+  color: var(--muted);
+  font-size: 15px;
+}
+
+/* The word in "Who can fetch?" that cycles through the questions. */
+.capability {
+  display: inline-block;
+  color: var(--lit);
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.capability.out {
+  opacity: 0;
+  transform: translateY(0.15em);
 }
 
 .repo-form {
@@ -280,8 +307,12 @@ body.dragging::after {
 /* Landing: what the page shows before a policy is loaded */
 
 body:has(.landing) .tagline {
-  font-size: 32px;
-  font-weight: 700;
+  font-size: 48px;
+}
+
+body:has(.landing) .subline {
+  margin-bottom: 20px;
+  font-size: 18px;
 }
 
 .landing {
@@ -932,14 +963,20 @@ body:has(.landing) .tagline {
   }
 }
 
+@media (max-width: 900px) {
+  /* Room for two lines, so the longer questions do not push the page down. */
+  body:has(.landing) .tagline {
+    min-height: 2.3em;
+  }
+}
+
 @media (max-width: 640px) {
-  .tagline {
-    font-size: 22px;
+  .headline {
+    font-size: 28px;
   }
 
-  .headline,
   body:has(.landing) .tagline {
-    font-size: 28px;
+    font-size: 34px;
   }
 
   .landing-grid {
