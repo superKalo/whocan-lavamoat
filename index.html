@@ -15,6 +15,31 @@
       </div>
       <button type="button" id="theme" class="theme">Light</button>
     </header>
+    <section class="load" aria-label="Load a policy">
+      <form id="repo-form" class="repo-form">
+        <label class="visually-hidden" for="repo">GitHub repository</label>
+        <input
+          id="repo"
+          name="repo"
+          type="text"
+          placeholder="owner/repo or a GitHub link"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+        />
+        <button type="submit">Show</button>
+      </form>
+      <p class="hint">
+        Or drop <code>policy.json</code> and <code>policy-override.json</code> anywhere on the page, paste a policy, or
+        <button type="button" id="choose" class="link">choose files</button>. Nothing is uploaded.
+        <input id="files" type="file" accept=".json,application/json" multiple hidden />
+      </p>
+      <p class="hint">
+        Try <a href="?repo=AmbireTech/extension">AmbireTech/extension</a> or
+        <a href="?repo=MetaMask/metamask-extension">MetaMask/metamask-extension</a>.
+      </p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </section>
     <main id="app"></main>
     <script type="module" src="/src/main.ts"></script>
   </body>

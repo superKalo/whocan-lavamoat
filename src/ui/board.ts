@@ -40,7 +40,7 @@ export const drawDots = (card: Card, resources: readonly string[], grid: Grid): 
   return svg
 }
 
-export const plural = (n: number, word: string): string => `${n} ${word}${n === 1 ? '' : 's'}`
+export const plural = (n: number, word: string, many = `${word}s`): string => `${n} ${n === 1 ? word : many}`
 
 /** "21 packages, 8 more via broad grants" */
 export const describeCounts = (card: Card): string =>
@@ -123,7 +123,7 @@ const renderNotes = (report: Report): HTMLElement =>
   )
 
 /** The whole board for one report. `label` says which policy it is. */
-export const renderReport = (report: Report, label: string): HTMLElement => {
+export const renderReport = (report: Report, label: Node | string): HTMLElement => {
   const grid = gridFor(report.resources.length)
   const rows = ROWS.map(({ row, label: rowLabel }) =>
     h(
@@ -142,7 +142,12 @@ export const renderReport = (report: Report, label: string): HTMLElement => {
   return h(
     'div',
     { class: 'report' },
-    h('p', { class: 'source' }, h('code', {}, label), ` · ${plural(report.resources.length, 'package')}`),
+    h(
+      'p',
+      { class: 'source' },
+      typeof label === 'string' ? h('code', {}, label) : label,
+      ` · ${plural(report.resources.length, 'package')}`,
+    ),
     renderWarnings(report.warnings),
     h('div', { class: 'board' }, ...rows),
     renderNotes(report),
